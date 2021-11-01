@@ -1,5 +1,6 @@
 package com.shundalov.spring.security.model;
 
+import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -11,6 +12,7 @@ import java.util.Set;
 // UserDetails можно представить, как адаптер между БД пользователей и тем что требуется Spring Security внутри SecurityContextHolder
 // UserDetails - Предоставляет основную информацию о пользователе.
 @Entity
+@Data
 @Table(name = "users")
 public class User implements UserDetails {
 
@@ -38,29 +40,6 @@ public class User implements UserDetails {
     inverseJoinColumns = @JoinColumn(name = "roles_id"))
     private Set<Role> roles;
 
-    public void setSurname(String surname) {
-        this.surname = surname;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getSurname() {
-        return surname;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setAge(Long age) {
-        this.age = age;
-    }
-
-    public Long getAge() {
-        return age;
-    }
 
     public User() {
 
@@ -77,10 +56,6 @@ public class User implements UserDetails {
         this.roles = roles;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
     // Возвращает полномочия, предоставленные пользователю.
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -92,13 +67,6 @@ public class User implements UserDetails {
         return password;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     @Override
     public String getUsername() {
@@ -129,15 +97,4 @@ public class User implements UserDetails {
         return true;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public Set<Role> getRoles() {
-        return roles;
-    }
-
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
-    }
 }
