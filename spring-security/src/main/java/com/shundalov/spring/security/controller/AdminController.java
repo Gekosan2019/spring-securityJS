@@ -2,12 +2,14 @@ package com.shundalov.spring.security.controller;
 
 import com.shundalov.spring.security.model.Role;
 import com.shundalov.spring.security.model.User;
+import com.shundalov.spring.security.service.RoleService;
 import com.shundalov.spring.security.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -15,10 +17,16 @@ import java.util.Set;
 public class AdminController {
 
     private UserService userService;
+    private RoleService roleService;
 
     @Autowired
     private void setUserService(UserService userService) {
         this.userService = userService;
+    }
+
+    @Autowired
+    private void setRoleService(RoleService roleService){
+        this.roleService = roleService;
     }
 
     @GetMapping("/admin")
@@ -30,17 +38,21 @@ public class AdminController {
 
     @GetMapping("/admin/addNewUser")
     public String addNewUser(Model model) {
+        List<Role> roleSet = roleService.getRoles();
+        model.addAttribute("roles", roleSet);
         model.addAttribute("user", new User());
         return "addUser";
     }
 
     // Получаем значения из формы, там создаем объект и добавляем в бд
     @PostMapping("/admin")
-    public String addInDB(@ModelAttribute("user") User user, @ModelAttribute("role") String my_role) {
-        Role role = new Role((my_role.equals("ADMIN") ? 1L : 2L), "ROLE_" + my_role);
-        Set<Role> roles = new HashSet<>();
-        roles.add(role);
-        user.setRoles(roles);
+    public String addInDB(@ModelAttribute("user") User user, @RequestParam("testOrder") Set<String> roleSet) {
+        Set<Role> roleHashSet = new HashSet<>();
+        for (String roleStr : roleSet) {
+            Role role = roleService.getRoleByName(roleStr);
+            roleHashSet.add(role);
+        }
+        user.setRoles(roleHashSet);
         userService.add(user);
         return "redirect:/admin";
     }
@@ -63,7 +75,7 @@ public class AdminController {
         return "redirect:/admin";
     }
 
-    @RequestMapping(value = "login", method = RequestMethod.GET)
+    @GetMapping("/login")
     public String loginPage() {
         return "login";
     }

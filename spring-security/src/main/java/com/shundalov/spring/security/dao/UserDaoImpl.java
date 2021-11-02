@@ -18,12 +18,8 @@ public class UserDaoImpl implements UserDao {
     @PersistenceContext
     EntityManager entityManager;
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-
     @Override
     public void add(User user) {
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
         entityManager.persist(user);
     }
 
@@ -36,7 +32,6 @@ public class UserDaoImpl implements UserDao {
     public void edit(User user) {
         User user1 = entityManager.find(User.class, user.getId());
         user.setRoles(user1.getRoles());
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
         entityManager.detach(user1);
         Session session = entityManager.unwrap(Session.class);
         session.update(user);

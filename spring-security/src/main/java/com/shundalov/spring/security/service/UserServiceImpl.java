@@ -3,6 +3,7 @@ package com.shundalov.spring.security.service;
 import com.shundalov.spring.security.dao.UserDao;
 import com.shundalov.spring.security.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
@@ -12,6 +13,12 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
 
     private UserDao userDao;
+    private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private void setPasswordEncoder(PasswordEncoder passwordEncoder) {
+        this.passwordEncoder = passwordEncoder;
+    }
 
     @Autowired
     private void setUserDao(UserDao userDao) {
@@ -20,6 +27,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void add(User user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         userDao.add(user);
     }
 
@@ -30,6 +38,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void edit(User user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         userDao.edit(user);
     }
 
