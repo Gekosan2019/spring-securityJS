@@ -31,7 +31,6 @@ public class UserDaoImpl implements UserDao {
     @Override
     public void edit(User user) {
         User user1 = entityManager.find(User.class, user.getId());
-        user.setRoles(user1.getRoles());
         entityManager.detach(user1);
         Session session = entityManager.unwrap(Session.class);
         session.update(user);

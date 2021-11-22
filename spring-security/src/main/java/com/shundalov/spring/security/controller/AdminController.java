@@ -37,7 +37,6 @@ public class AdminController {
         model.addAttribute("roles", roleSet);
         model.addAttribute("user", admin);
         model.addAttribute("userNew", new User());
-        model.addAttribute("userEdit", new User());
         List<User> userList = userService.listUsers();
         model.addAttribute("userList", userList);
         model.addAttribute("userService", userService);
@@ -57,19 +56,19 @@ public class AdminController {
         return "redirect:/admin";
     }
 
-    @GetMapping("/admin/{id}/edit")
-    public String edit(Model model, @PathVariable("id") Long id) {
-        model.addAttribute("user", userService.getUserByID(id));
-        return "update";
-    }
-
-    @GetMapping("/admin/{id}")
-    public String update(@ModelAttribute("userNew") User user) {
+    @PostMapping("/admin/{id}")
+    public String update(@ModelAttribute("userNew") User user, @RequestParam("testOrderEdit") Set<String> roleSet) {
+        Set<Role> roleHashSet = new HashSet<>();
+        for (String roleStr : roleSet) {
+            Role role = roleService.getRoleByName(roleStr);
+            roleHashSet.add(role);
+        }
+        user.setRoles(roleHashSet);
         userService.edit(user);
         return "redirect:/admin";
     }
 
-    @GetMapping("/admin/{id}/delete")
+    @PatchMapping("/admin/{id}/delete")
     public String delete(@PathVariable("id") Long id) {
         userService.delete(id);
         return "redirect:/admin";
