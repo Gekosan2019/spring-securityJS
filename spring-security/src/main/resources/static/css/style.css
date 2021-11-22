@@ -1,22 +1,11 @@
-
-.all1{
-    text-align: center;
+ul {
+    padding-top: 100px;
+    padding-bottom: 100px;
 }
-h2{
-    text-align: center
-}
-
-.input1{
-    background-image: linear-gradient(to right, #9EEFE1 0%, #4830F0 51%, #9EEFE1 100%);
+.height{
+    height:25px !important;
 }
 
-table{
-    position: center
-}
-
-.m1{
-    font-size: 30px;
-}
 
 
 

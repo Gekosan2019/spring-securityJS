@@ -56,6 +56,16 @@ public class User implements UserDetails {
         this.roles = roles;
     }
 
+    public StringBuilder getRolesInString() {
+        StringBuilder strAllRoles = new StringBuilder("");
+        for (Role role : roles) {
+            StringBuilder str = new StringBuilder(role.getUsername());
+            str.replace(0, 5, "");
+            strAllRoles.append( str + " ");
+        }
+        return strAllRoles;
+    }
+
     // Возвращает полномочия, предоставленные пользователю.
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
