@@ -5,6 +5,8 @@ import com.shundalov.spring.security.model.User;
 import com.shundalov.spring.security.service.RoleService;
 import com.shundalov.spring.security.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -31,8 +33,9 @@ public class AdminController {
     }
 
     @GetMapping("/admin")
-    public String allUsers(Model model, Principal principal)  {
-        User admin = userService.getUserByUsername(principal.getName());
+    public String allUsers(Model model)  {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User admin = userService.getUserByUsername(((UserDetails)principal).getUsername());
         List<Role> roleSet = roleService.getRoles();
         model.addAttribute("roles", roleSet);
         model.addAttribute("user", admin);
