@@ -2,11 +2,13 @@ package com.shundalov.spring.security.model;
 
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.util.Collection;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 // Для того, чтобы в дальнейшим использовать класс User в Spring Security, он должен реализовывать интерфейс UserDetails.
 // UserDetails можно представить, как адаптер между БД пользователей и тем что требуется Spring Security внутри SecurityContextHolder
@@ -40,6 +42,8 @@ public class User implements UserDetails {
     inverseJoinColumns = @JoinColumn(name = "roles_id"))
     private Set<Role> roles;
 
+    @Transient
+    Collection<? extends GrantedAuthority> authorities;
 
     public User() {
 
@@ -47,13 +51,14 @@ public class User implements UserDetails {
 
     public User(String username, String surname,
                 String email,
-                String password, Long age, Set<Role> roles) {
+                String password, Long age, Set<Role> roles,Collection<? extends GrantedAuthority> authorities ) {
         this.username = username;
         this.surname = surname;
         this.email = email;
         this.password = password;
         this.age = age;
         this.roles = roles;
+        this.authorities = authorities;
     }
 
     public StringBuilder getRolesInString() {
@@ -69,7 +74,11 @@ public class User implements UserDetails {
     // Возвращает полномочия, предоставленные пользователю.
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return roles;
+        return authorities;
+    }
+
+    public void setAuthorities() {
+        authorities = mapRolesToAuthorities(roles);
     }
 
     @Override
@@ -107,4 +116,7 @@ public class User implements UserDetails {
         return true;
     }
 
+    private Collection<? extends GrantedAuthority> mapRolesToAuthorities(Collection<Role> roles) {
+        return roles.stream().map(r -> new SimpleGrantedAuthority(r.getAuthority())).collect(Collectors.toList());
+    }
 }

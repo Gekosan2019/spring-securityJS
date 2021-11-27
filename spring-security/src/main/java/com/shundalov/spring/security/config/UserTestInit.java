@@ -32,10 +32,10 @@ public class UserTestInit {
         roles1.add(roleService.getRoleById(1L));
         roles1.add(roleService.getRoleById(2L));
         User admin = new User("Shamil", "Shundalov", "super.shomka@mail.ru", "alex2002"
-        , 19L, roles1);
+        , 19L, roles1, null);
         roles2.add(roleService.getRoleById(2L));
         User user = new User("Seva", "Bulava", "el.primo@mail.ru", "seva"
-                , 20L, roles2);
+                , 20L, roles2, null);
         userService.add(admin);
         userService.add(user);
     }
