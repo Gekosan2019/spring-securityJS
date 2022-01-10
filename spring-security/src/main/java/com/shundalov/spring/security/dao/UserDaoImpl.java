@@ -3,8 +3,7 @@ package com.shundalov.spring.security.dao;
 
 import com.shundalov.spring.security.model.User;
 import org.hibernate.Session;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
+
 import org.springframework.stereotype.Repository;
 
 
@@ -43,7 +42,7 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public User getUserByID(Long id) {
+    public User getUserByID(Long id)  {
         User user = entityManager.createQuery("SELECT r FROM User r WHERE r.id = :id", User.class)
                 .setParameter("id", id).getSingleResult();
         return user;

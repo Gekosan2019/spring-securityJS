@@ -1,5 +1,6 @@
 package com.shundalov.spring.security.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -42,6 +43,7 @@ public class User implements UserDetails {
     inverseJoinColumns = @JoinColumn(name = "roles_id"))
     private Set<Role> roles;
 
+    @JsonIgnore
     @Transient
     Collection<? extends GrantedAuthority> authorities;
 
@@ -61,6 +63,7 @@ public class User implements UserDetails {
         this.authorities = authorities;
     }
 
+    @JsonIgnore
     public StringBuilder getRolesInString() {
         StringBuilder strAllRoles = new StringBuilder("");
         for (Role role : roles) {
@@ -72,6 +75,7 @@ public class User implements UserDetails {
     }
 
     // Возвращает полномочия, предоставленные пользователю.
+    @JsonIgnore
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return authorities;
@@ -86,31 +90,34 @@ public class User implements UserDetails {
         return password;
     }
 
-
     @Override
     public String getUsername() {
         return username;
     }
 
     // Указывает, истек ли срок действия учетной записи пользователя.
+    @JsonIgnore
     @Override
     public boolean isAccountNonExpired() {
         return true;
     }
 
     // Указывает, заблокирован пользователь или разблокирован.
+    @JsonIgnore
     @Override
     public boolean isAccountNonLocked() {
         return true;
     }
 
     // Указывает, истек ли срок действия учетных данных (пароля) пользователя.
+    @JsonIgnore
     @Override
     public boolean isCredentialsNonExpired() {
         return true;
     }
 
     // Указывает, включен или отключен пользователь.
+    @JsonIgnore
     @Override
     public boolean isEnabled() {
         return true;
