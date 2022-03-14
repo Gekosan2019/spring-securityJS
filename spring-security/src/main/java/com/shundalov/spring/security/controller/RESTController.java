@@ -1,11 +1,13 @@
 package com.shundalov.spring.security.controller;
 
 import com.shundalov.spring.security.exceptionHandling.NoSuchUserException;
+import com.shundalov.spring.security.model.Role;
 import com.shundalov.spring.security.model.User;
 import com.shundalov.spring.security.service.RoleService;
 import com.shundalov.spring.security.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,6 +27,7 @@ public class RESTController {
     private void setRoleService(RoleService roleService) {
         this.roleService = roleService;
     }
+
 
     @GetMapping("/users")
     public List<User> allUsers(){
@@ -50,9 +53,9 @@ public class RESTController {
     }
 
     @PostMapping("/users")
-    public User addNewUser(@RequestBody User user) {
+    public void addNewUser(@RequestBody User user) {
+        System.out.println(user.getRoles());
         userService.add(user);
-        return user;
     }
 
     @PutMapping("/users")

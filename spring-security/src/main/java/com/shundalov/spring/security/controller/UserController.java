@@ -19,9 +19,7 @@ public class UserController {
     }
 
     @GetMapping("/user")
-    public String userInfo(Principal principal, Model model) {
-        User user = userService.getUserByUsername(principal.getName());
-        model.addAttribute("user", user);
-        return "user";
+    public String userInfo() {
+        return "user.html";
     }
 }

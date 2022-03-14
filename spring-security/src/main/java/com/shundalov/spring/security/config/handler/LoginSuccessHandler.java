@@ -20,7 +20,7 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
         if( authentication.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN"))) {
             httpServletResponse.getHeaderNames();
             httpServletRequest.getParameter("username");
-            httpServletResponse.sendRedirect("/admin");
+            httpServletResponse.sendRedirect("admin");
         }
         else if (authentication.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_USER")) ) {
             httpServletResponse.sendRedirect("user");

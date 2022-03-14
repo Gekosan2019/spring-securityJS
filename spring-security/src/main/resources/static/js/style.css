@@ -1,0 +1,122 @@
+.nav
+{
+    height:45px !important
+}
+.nav-item{
+    margin-top: -15px;
+    padding-top: -5px;
+}
+.col-1 .nav-link {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 200px;
+}
+.col-1 .nav-link>*:first-child {
+    align-self: stretch;
+}
+@media (min-width: 1360px){
+    .col-10{ height: 555px;
+        padding-left: 50px !important;
+        padding-right: -15px !important;
+    }
+}
+.contentTable{
+    width: 950px;
+    padding-top: 20px;
+}
+.table{
+    background: white;
+    width: 900px;
+    margin-top: 20px;
+    margin-left: 25px !important;
+}
+.nav.nav-tabs{
+    width: 950px;
+    height: 31px !important;
+}
+.allusers{
+    padding-left: 20px !important;
+    width: 948px;
+    margin-top: -20px !important;
+    padding-top: 10px;
+    padding-bottom: 5px !important;
+
+}
+.content-body{
+    margin-top: 20px !important;
+    margin-left: 20px !important;
+}
+.form-control{
+    height: 28px;
+}
+.form-control1{
+    width: 189px !important;
+    margin-left: 60px;
+}
+.form-controlNU{
+    height: 28px;
+    margin-left: 60px;
+}
+.form-group{
+    margin-left: 330px;
+    width: 325px;
+}
+.username{
+    margin-left: 115px;
+}
+.surname{
+    margin-left: 116px;
+}
+.email{
+    margin-left: 134px;
+}
+.idED{
+    margin-left:90px;
+}
+.usernameED{
+    margin-left:60px;
+}
+.surnameED{
+    margin-left: 61px;
+}
+.ageED{
+    margin-left: 83px;
+}
+.emailED{
+    margin-left: 77px;
+}
+.passwordED{
+    margin-left: 63px;
+}
+.roleED{
+    margin-left: 79px;
+}
+.age{
+    margin-left: 136px;
+}
+.password{
+    margin-left: 120px;
+}
+.role{
+    margin-left: 136px;
+}
+.input1{
+    margin-left: 424px;
+}
+.nav-link{
+    width:100% !important;
+}
+.editClass{
+    margin-left: -190px !important;
+}
+.form-control{
+    width: 60%;
+}
+.form-control::placeholder{
+    color: black;
+}
+.modal-footer{
+    margin-left: 174px !important;
+    width: 76%;
+}
