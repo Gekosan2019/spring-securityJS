@@ -1,13 +1,16 @@
 package com.shundalov.spring.security.controller;
 
+
 import com.shundalov.spring.security.exceptionHandling.NoSuchUserException;
-import com.shundalov.spring.security.model.Role;
+import com.shundalov.spring.security.exceptionHandling.UserIncorrectData;
 import com.shundalov.spring.security.model.User;
 import com.shundalov.spring.security.service.RoleService;
 import com.shundalov.spring.security.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -30,46 +33,46 @@ public class RESTController {
 
 
     @GetMapping("/users")
-    public List<User> allUsers(){
+    public ResponseEntity<List<User>> allUsers(){
         List<User> userList = userService.listUsers();
-        System.out.println(userList);
-        return userList;
+        return new ResponseEntity<>(userList, HttpStatus.OK);
     }
 
     @GetMapping("/userAuth")
-    public User getUserAuthorize(){
+    public ResponseEntity<User> getUserAuthorize(){
         User admin = (User)  SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return admin;
+        return new ResponseEntity<>(admin, HttpStatus.OK);
     }
 
     @GetMapping("/user/{id}")
-    public User getUser(@PathVariable Long id) {
+    public ResponseEntity<User> getUser(@PathVariable Long id) {
         User user = userService.getUserByID(id);
-        if(user == null) {
-            throw new NoSuchUserException("The is no user with ID =" + id +
-                    " in Database");
-        }
-        return user;
+        return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
     @PostMapping("/users")
-    public void addNewUser(@RequestBody User user) {
-        userService.add(user);
+    public ResponseEntity<UserIncorrectData> addNewUser(@RequestBody User user, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return new ResponseEntity<>(new UserIncorrectData(), HttpStatus.BAD_REQUEST);
+        } else {
+            userService.add(user);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
     }
 
     @PutMapping("/users")
-    public User updateUser(@RequestBody User user) {
-        userService.edit(user);
-        return user;
+    public ResponseEntity<NoSuchUserException> updateUser(@RequestBody User user, BindingResult bindingResult) {
+        if(bindingResult.hasErrors()) {
+            return new ResponseEntity<>(new NoSuchUserException("Error"), HttpStatus.BAD_REQUEST);
+        } else {
+            userService.edit(user);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
     }
 
     @DeleteMapping("/user/{id}")
-    public List<User> deleteMapping(@PathVariable Long id) {
-        User user = userService.getUserByID(id);
-        if(user == null) {
-            throw new NoSuchUserException("user with " + id + " is doesn't exist");
-        }
+    public ResponseEntity<String> deleteMapping(@PathVariable Long id) {
         userService.delete(id);
-        return userService.listUsers();
+        return new ResponseEntity<>("User was deleted", HttpStatus.OK);
     }
 }

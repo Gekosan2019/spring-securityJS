@@ -31,13 +31,12 @@ public class UserDaoImpl implements UserDao {
     public void edit(User user) {
         User user1 = entityManager.find(User.class, user.getId());
         entityManager.detach(user1);
-        Session session = entityManager.unwrap(Session.class);
-        session.update(user);
+        entityManager.merge(user);
     }
 
     @Override
     public List<User> listUsers() {
-        List<User> userList = entityManager.createNativeQuery("SELECT * FROM users", User.class).getResultList();
+        List<User> userList = entityManager.createQuery("FROM User").getResultList();
         return userList;
     }
 
