@@ -17,19 +17,6 @@ import java.util.Set;
 @Controller
 public class AdminController {
 
-    private UserService userService;
-    private RoleService roleService;
-
-    @Autowired
-    private void setUserService(UserService userService) {
-        this.userService = userService;
-    }
-
-    @Autowired
-    private void setRoleService(RoleService roleService){
-        this.roleService = roleService;
-    }
-
     @GetMapping("/admin")
     public String allUsers()  {
         return "admin.html";

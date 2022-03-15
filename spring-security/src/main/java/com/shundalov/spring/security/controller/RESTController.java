@@ -54,7 +54,6 @@ public class RESTController {
 
     @PostMapping("/users")
     public void addNewUser(@RequestBody User user) {
-        System.out.println(user.getRoles());
         userService.add(user);
     }
 

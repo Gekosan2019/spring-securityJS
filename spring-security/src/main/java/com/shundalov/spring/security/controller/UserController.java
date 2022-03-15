@@ -11,12 +11,6 @@ import java.security.Principal;
 @Controller
 public class UserController {
 
-    private UserService userService;
-
-    @Autowired
-    private void setUserService(UserService userService) {
-        this.userService = userService;
-    }
 
     @GetMapping("/user")
     public String userInfo() {
