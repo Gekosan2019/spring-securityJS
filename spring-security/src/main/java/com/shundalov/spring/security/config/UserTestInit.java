@@ -24,18 +24,18 @@ public class UserTestInit {
     }
 
     @PostConstruct
-    public void init() {
+    public void initBasicUserInDataBase() {
         roleService.saveRole(new Role(1L, "ROLE_ADMIN"));
         roleService.saveRole(new Role(2L, "ROLE_USER"));
-        Set<Role> roles1 = new HashSet<>();
-        Set<Role> roles2 = new HashSet<>();
-        roles1.add(roleService.getRoleById(1L));
-        roles1.add(roleService.getRoleById(2L));
+        Set<Role> rolesForUser1 = new HashSet<>();
+        Set<Role> rolesForUser2 = new HashSet<>();
+        rolesForUser1.add(roleService.getRoleById(1L));
+        rolesForUser1.add(roleService.getRoleById(2L));
         User admin = new User("Shamil", "Shundalov", "super.shomka@mail.ru", "alex2002"
-        , 19L, roles1, null);
-        roles2.add(roleService.getRoleById(2L));
+        , 19L, rolesForUser1, null);
+        rolesForUser2.add(roleService.getRoleById(2L));
         User user = new User("Seva", "Bulava", "el.primo@mail.ru", "seva"
-                , 20L, roles2, null);
+                , 20L, rolesForUser2, null);
         userService.add(admin);
         userService.add(user);
     }

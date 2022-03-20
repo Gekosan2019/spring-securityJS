@@ -1,12 +1,7 @@
 package com.shundalov.spring.security.dao;
 
-
 import com.shundalov.spring.security.model.User;
-import org.hibernate.Session;
-
 import org.springframework.stereotype.Repository;
-
-
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;

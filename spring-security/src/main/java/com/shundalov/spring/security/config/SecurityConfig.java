@@ -1,10 +1,10 @@
 package com.shundalov.spring.security.config;
 
+import com.shundalov.spring.security.config.handler.LoginFailedHandler;
 import com.shundalov.spring.security.config.handler.LoginSuccessHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -38,7 +38,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements WebM
     protected void configure(HttpSecurity http) throws Exception {
         http.formLogin()
                 //указываем логику обработки при логине
-                .successHandler(new LoginSuccessHandler()).loginProcessingUrl("/login")
+                .successHandler(loginSuccessHandler()).loginProcessingUrl("/login")
                 // Указываем параметры логина и пароля с формы логина
                 .usernameParameter("username")
                 .passwordParameter("password")
@@ -69,11 +69,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements WebM
     }
 
     @Bean
-    DaoAuthenticationProvider daoAuthenticationProvider() {
-        DaoAuthenticationProvider auth = new DaoAuthenticationProvider();
-        auth.setUserDetailsService(userDetailsService);
-        auth.setPasswordEncoder(encoder());
-        return  auth;
+    public LoginSuccessHandler loginSuccessHandler() {
+        return new LoginSuccessHandler();
+    }
+
+    // Просто для себя создал класс, посмотрел что да как
+    @Bean
+    public LoginFailedHandler loginFailedHandler() {
+        return new LoginFailedHandler();
     }
 
     @Bean

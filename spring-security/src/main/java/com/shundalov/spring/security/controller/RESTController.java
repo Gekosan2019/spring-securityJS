@@ -4,7 +4,6 @@ package com.shundalov.spring.security.controller;
 import com.shundalov.spring.security.exceptionHandling.NoSuchUserException;
 import com.shundalov.spring.security.exceptionHandling.UserIncorrectData;
 import com.shundalov.spring.security.model.User;
-import com.shundalov.spring.security.service.RoleService;
 import com.shundalov.spring.security.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,16 +18,10 @@ import java.util.List;
 public class RESTController {
 
     private UserService userService;
-    private RoleService roleService;
 
     @Autowired
     private void setUserService(UserService userService) {
         this.userService = userService;
-    }
-
-    @Autowired
-    private void setRoleService(RoleService roleService) {
-        this.roleService = roleService;
     }
 
 
@@ -76,3 +69,4 @@ public class RESTController {
         return new ResponseEntity<>("User was deleted", HttpStatus.OK);
     }
 }
+
